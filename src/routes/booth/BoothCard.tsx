@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import Br from "../../shared/components/Br";
 
 interface CardProps {
@@ -29,7 +29,8 @@ const Card = styled.div<{ image: string }>`
   height: 170px;
   padding: 16px;
   border-radius: 10px;
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 48.69%),
+  background-image:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 48.69%),
     url(${(props) => props.image});
 
   background-size: cover;

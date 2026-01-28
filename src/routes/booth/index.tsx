@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import styled from "@emotion/styled";
 import { publicAPI } from "../../shared/lib/api";
 import useHeader from "../../shared/hooks/useHeader";

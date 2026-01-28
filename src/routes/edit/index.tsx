@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import TitleInput from "./titleInput";
 import ImageUploader from "./imageUploder";
 import DateSelector from "./dateSelector";

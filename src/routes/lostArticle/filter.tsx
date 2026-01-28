@@ -1,5 +1,5 @@
 import { useAdminLostStore } from "../../stores/useAdminLostStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { AddButton, SaveText, FilterContainer, SubText, FilterWrapper } from "./filter.style";
 import { useTranslation } from "react-i18next";
 

@@ -1,11 +1,8 @@
 import styled from "@emotion/styled";
-import { useNavigate } from "react-router-dom";
 import logo from "@icon/likelion_logo.svg";
 import { Trans, useTranslation } from "react-i18next";
 
-export default function About() {
-  const navigate = useNavigate();
-
+export default function About({ onGoCredit }: { onGoCredit: () => void }) {
   const { t } = useTranslation("main");
 
   return (
@@ -21,7 +18,7 @@ export default function About() {
       <p className="content">
         <Trans i18nKey={"introduction_paragraph2"}>{t("introduction_paragraph2")}</Trans>
       </p>
-      <AboutButton onClick={() => navigate("credit")}>{t("creator")}</AboutButton>
+      <AboutButton onClick={onGoCredit}>{t("creator")}</AboutButton>
       <AboutButton onClick={() => window.open("https://skulikelion.com/")}>
         {t("visit_likelion")}
       </AboutButton>

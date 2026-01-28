@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import { publicAPI } from "../../shared/lib/api";
 import useLanguage from "../../shared/hooks/useLanguage";
 import BoothCard from "../booth/BoothCard";
 import { useTranslation } from "react-i18next";
+import { useBooths } from "../../shared/hooks/useBooths";
 
 interface Booth {
   id: number;
@@ -15,42 +15,14 @@ interface Booth {
 
 export default function Booth() {
   const { t } = useTranslation("main");
-
   const [lang] = useLanguage();
   const [selectedLocation, setSelectedLocation] = useState<string>();
-  const [boothList, setBoothList] = useState<Booth[]>([]);
+
+  const { data: boothList = [] } = useBooths(lang);
 
   useEffect(() => {
-    let isMounted = true;
-
-    const fetchAllBooths = async () => {
-      let cursor: number | null = null;
-      let allBooths: Booth[] = [];
-
-      while (true) {
-        const { data } = await publicAPI.get("boothInfo", {
-          params: { lang, cursor },
-        });
-
-        const fetched: Booth[] = data.data;
-        allBooths = [...allBooths, ...fetched];
-
-        if (fetched.length < 8) break;
-        cursor = fetched.at(-1)?.id ?? null;
-      }
-
-      if (isMounted) setBoothList(allBooths);
-    };
-
-    if (lang) {
-      fetchAllBooths();
-      setSelectedLocation(t("hyein_hall"));
-    }
-
-    return () => {
-      isMounted = false;
-    };
-  }, [lang]);
+    if (lang) setSelectedLocation(t("hyein_hall"));
+  }, [lang, t]);
 
   const filteredList = boothList.filter((booth) => {
     const locationPrefix = booth.boothLocation.split(" ")[0];
@@ -60,37 +32,21 @@ export default function Booth() {
   return (
     <Wrapper>
       <NavWrapper>
-        <NavBtn
-          selected={selectedLocation === t("hyein_hall")}
-          onClick={() => setSelectedLocation(t("hyein_hall"))}
-        >
-          {t("hyein_hall")}
-        </NavBtn>
-
-        <NavBtn
-          selected={selectedLocation === t("eunju_hall_1")}
-          onClick={() => setSelectedLocation(t("eunju_hall_1"))}
-        >
-          {t("eunju_hall_1")}
-        </NavBtn>
-        <NavBtn
-          selected={selectedLocation === t("eunju_hall_2")}
-          onClick={() => setSelectedLocation(t("eunju_hall_2"))}
-        >
-          {t("eunju_hall_2")}
-        </NavBtn>
-        <NavBtn
-          selected={selectedLocation === t("cheongun_hall")}
-          onClick={() => setSelectedLocation(t("cheongun_hall"))}
-        >
-          {t("cheongun_hall")}
-        </NavBtn>
-        <NavBtn
-          selected={selectedLocation === t("daeil_hall")}
-          onClick={() => setSelectedLocation(t("daeil_hall"))}
-        >
-          {t("daeil_hall")}
-        </NavBtn>
+        {[
+          t("hyein_hall"),
+          t("eunju_hall_1"),
+          t("eunju_hall_2"),
+          t("cheongun_hall"),
+          t("daeil_hall"),
+        ].map((loc) => (
+          <NavBtn
+            key={loc}
+            selected={selectedLocation === loc}
+            onClick={() => setSelectedLocation(loc)}
+          >
+            {loc}
+          </NavBtn>
+        ))}
       </NavWrapper>
       <BoothWrapper>
         {filteredList.map((booth) => (

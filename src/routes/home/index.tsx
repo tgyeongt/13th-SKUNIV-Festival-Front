@@ -11,6 +11,7 @@ import useLanguage from "../../shared/hooks/useLanguage";
 import useHeader from "../../shared/hooks/useHeader";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router";
 
 export default function Home() {
   const [lang, setLang] = useLanguage();
@@ -26,6 +27,7 @@ export default function Home() {
   });
 
   const { t } = useTranslation("main");
+  const navigate = useNavigate();
 
   return (
     <HomeWrapper langSelected={!!lang}>
@@ -38,7 +40,11 @@ export default function Home() {
             <Section key="2" title={t("line_up")} content={<LineUp />} />
             <Section key="3" title={t("booth_guide")} content={<Booth />} />
             <Section key="4" title={t("evacuation_aed")} content={<Emergency />} />
-            <Section key="5" title="About" content={<About />} />
+            <Section
+              key="5"
+              title="About"
+              content={<About onGoCredit={() => navigate("/credit")} />}
+            />
           </>
         )}
       </AnimatePresence>
